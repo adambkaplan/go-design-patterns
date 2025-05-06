@@ -1,3 +1,7 @@
+// Copyright (C) 2025 Adam B Kaplan
+//
+// SPDX-License-Identifier: MIT
+
 package main
 
 func main() {
