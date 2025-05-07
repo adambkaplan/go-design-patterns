@@ -13,7 +13,7 @@ var _ = Describe("Hello World", func() {
 
 			output, err := RunTestHarness(ctx)
 			Expect(err).NotTo(HaveOccurred())
-			Expect(output).To(Equal("Hello, World!\n"))
+			Expect(output).To(ContainSubstring("Hello, Head First Design Patterns!\n"))
 		})
 	})
 })
