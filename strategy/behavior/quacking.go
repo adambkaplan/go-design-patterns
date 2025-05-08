@@ -24,5 +24,5 @@ var _ Quackable = (*Squeak)(nil)
 
 // Quack squeaks.
 func (s *Squeak) Quack(writer io.StringWriter) {
-	writer.WriteString("Squeak")
+	writer.WriteString("Squeak\n")
 }

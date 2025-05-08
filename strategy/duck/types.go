@@ -26,16 +26,21 @@ type MallardDuck struct {
 
 var _ Duck = (*MallardDuck)(nil)
 
-// Display implements Duck.
-func (m *MallardDuck) Display() {
+func (m *MallardDuck) initWriter() {
 	if m.Writer == nil {
 		m.Writer = os.Stdout
 	}
-	m.Writer.WriteString("I am a real Mallard duck\n")
+}
+
+// Display implements Duck.
+func (m *MallardDuck) Display() {
+	m.initWriter()
+	m.Writer.WriteString("I'm a real Mallard duck\n")
 }
 
 // PerformFly implements Duck.
 func (m *MallardDuck) PerformFly() {
+	m.initWriter()
 	if m.flyBehavior == nil {
 		m.flyBehavior = &behavior.FlyWithWings{}
 	}
@@ -44,6 +49,7 @@ func (m *MallardDuck) PerformFly() {
 
 // PerformQuack implements Duck.
 func (m *MallardDuck) PerformQuack() {
+	m.initWriter()
 	if m.quackBehavior == nil {
 		m.quackBehavior = &behavior.Quack{}
 	}
@@ -52,10 +58,8 @@ func (m *MallardDuck) PerformQuack() {
 
 // Swim implements Duck.
 func (m *MallardDuck) Swim() {
-	if m.Writer == nil {
-		m.Writer = os.Stdout
-	}
-	m.Writer.WriteString("All ducks can swim, even decoys!\n")
+	m.initWriter()
+	m.Writer.WriteString("All ducks float, even decoys!\n")
 }
 
 type ModelDuck struct {
@@ -66,16 +70,21 @@ type ModelDuck struct {
 
 var _ Duck = (*ModelDuck)(nil)
 
-// Display implements Duck.
-func (m *ModelDuck) Display() {
+func (m *ModelDuck) initWriter() {
 	if m.Writer == nil {
 		m.Writer = os.Stdout
 	}
-	m.Writer.WriteString("I am a model duck\n")
+}
+
+// Display implements Duck.
+func (m *ModelDuck) Display() {
+	m.initWriter()
+	m.Writer.WriteString("I'm a model duck\n")
 }
 
 // PerformFly implements Duck.
 func (m *ModelDuck) PerformFly() {
+	m.initWriter()
 	if m.FlyBehavior == nil {
 		m.FlyBehavior = &behavior.FlyNoWay{}
 	}
@@ -84,6 +93,7 @@ func (m *ModelDuck) PerformFly() {
 
 // PerformQuack implements Duck.
 func (m *ModelDuck) PerformQuack() {
+	m.initWriter()
 	if m.QuackBehavior == nil {
 		m.QuackBehavior = &behavior.MuteQuack{}
 	}
@@ -92,8 +102,6 @@ func (m *ModelDuck) PerformQuack() {
 
 // Swim implements Duck.
 func (m *ModelDuck) Swim() {
-	if m.Writer == nil {
-		m.Writer = os.Stdout
-	}
-	m.Writer.WriteString("All ducks can swim, even decoys!\n")
+	m.initWriter()
+	m.Writer.WriteString("All ducks float, even decoys!\n")
 }

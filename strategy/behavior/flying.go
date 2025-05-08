@@ -26,5 +26,5 @@ type FlyRocketPowered struct{}
 var _ Flyable = (*FlyRocketPowered)(nil)
 
 func (f *FlyRocketPowered) Fly(writer io.StringWriter) {
-	writer.WriteString("I'm flying with a rocket!")
+	writer.WriteString("I'm flying with a rocket!\n")
 }

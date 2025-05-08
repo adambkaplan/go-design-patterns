@@ -34,22 +34,22 @@ var _ = Describe("Ducks", func() {
 
 		It("can fly", func() {
 			subject.PerformFly()
-			Expect(output.String()).To(Equal("I can fly!\n"))
+			Expect(output.String()).To(Equal("I'm flying!!\n"))
 		})
 
 		It("can quack", func() {
 			subject.PerformQuack()
-			Expect(output.String()).To(Equal("Quack!\n"))
+			Expect(output.String()).To(Equal("Quack\n"))
 		})
 
 		It("can swim", func() {
 			subject.Swim()
-			Expect(output.String()).To(Equal("All ducks can swim, even decoys!\n"))
+			Expect(output.String()).To(Equal("All ducks float, even decoys!\n"))
 		})
 
 		It("can be displayed", func() {
 			subject.Display()
-			Expect(output.String()).To(Equal("I'm a Mallard duck.\n"))
+			Expect(output.String()).To(Equal("I'm a real Mallard duck\n"))
 		})
 
 	})
@@ -73,7 +73,7 @@ var _ = Describe("Ducks", func() {
 
 		It("can't quack by default", func() {
 			subject.PerformQuack()
-			Expect(output.String()).To(Equal("<< Silent >>\n"))
+			Expect(output.String()).To(Equal("<< Silence >>\n"))
 		})
 
 		It("can change its flying behavior", func() {
@@ -81,7 +81,7 @@ var _ = Describe("Ducks", func() {
 			subject.FlyBehavior = &behavior.FlyRocketPowered{}
 			subject.PerformFly()
 			outString := output.String()
-			Expect(outString).To(ContainSubstring("I can't fly"))
+			Expect(outString).To(ContainSubstring("I can't fly\n"))
 			Expect(outString).To(ContainSubstring("I'm flying with a rocket!\n"))
 		})
 
@@ -90,18 +90,18 @@ var _ = Describe("Ducks", func() {
 			subject.QuackBehavior = &behavior.Squeak{}
 			subject.PerformQuack()
 			outString := output.String()
-			Expect(outString).To(ContainSubstring("I can't fly"))
-			Expect(outString).To(ContainSubstring("I'm flying with a rocket!\n"))
+			Expect(outString).To(ContainSubstring("<< Silence >>\n"))
+			Expect(outString).To(ContainSubstring("Squeak\n"))
 		})
 
 		It("can swim", func() {
 			subject.Swim()
-			Expect(output.String()).To(Equal("All ducks can swim, even decoys!\n"))
+			Expect(output.String()).To(Equal("All ducks float, even decoys!\n"))
 		})
 
 		It("can be displayed", func() {
 			subject.Display()
-			Expect(output.String()).To(Equal("I'm a model duck.\n"))
+			Expect(output.String()).To(Equal("I'm a model duck\n"))
 		})
 
 	})
