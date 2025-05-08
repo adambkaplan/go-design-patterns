@@ -5,26 +5,35 @@ import "io"
 // Flyable is the behavior of flying things.
 type Flyable interface {
 
-	// Fly executes the flying behavior.
-	Fly(writer io.StringWriter)
+	// Fly writes the flying behavior to the provided writer.
+	Fly(writer io.StringWriter) error
 }
 
+// FlyWithWings is a flying action with wings.
 type FlyWithWings struct{}
 
-func (f *FlyWithWings) Fly(writer io.StringWriter) {
-	writer.WriteString("I'm flying!!\n")
+// Fly writes the flying behavior to the provided writer.
+func (f *FlyWithWings) Fly(writer io.StringWriter) (err error) {
+	_, err = writer.WriteString("I'm flying!!\n")
+	return
 }
 
+// FlyNoWay is a "can't fly" action.
 type FlyNoWay struct{}
 
-func (f *FlyNoWay) Fly(writer io.StringWriter) {
-	writer.WriteString("I can't fly\n")
+// Fly writes the flying behavior to the provided writer.
+func (f *FlyNoWay) Fly(writer io.StringWriter) (err error) {
+	_, err = writer.WriteString("I can't fly\n")
+	return
 }
 
+// FlyRocketPowered is a flying action assisted by rockets.
 type FlyRocketPowered struct{}
 
 var _ Flyable = (*FlyRocketPowered)(nil)
 
-func (f *FlyRocketPowered) Fly(writer io.StringWriter) {
-	writer.WriteString("I'm flying with a rocket!\n")
+// Fly writes the flying behavior to the provided writer.
+func (f *FlyRocketPowered) Fly(writer io.StringWriter) (err error) {
+	_, err = writer.WriteString("I'm flying with a rocket!\n")
+	return
 }

@@ -7,17 +7,26 @@ import (
 	"github.com/adambkaplan/go-design-patterns/strategy/behavior"
 )
 
+// Duck describes all the actions a duck-like object can do.
 type Duck interface {
-	Display()
 
-	PerformFly()
+	// Display shows the duck on the configured output.
+	Display() error
 
-	PerformQuack()
+	// PerformFly causes the duck to fly.
+	PerformFly() error
 
-	Swim()
+	// PerformQuack causes the duck to make a sound.
+	PerformQuack() error
+
+	// Swim causes the duck to swim.
+	Swim() error
 }
 
+// MallardDuck represents a real Mallard duck that flies and quacks.
 type MallardDuck struct {
+
+	// Writer is where the text output of this duck's actions are written.
 	Writer io.StringWriter
 
 	flyBehavior   behavior.Flyable
@@ -32,40 +41,50 @@ func (m *MallardDuck) initWriter() {
 	}
 }
 
-// Display implements Duck.
-func (m *MallardDuck) Display() {
+// Display prints a message to the configured writer.
+func (m *MallardDuck) Display() (err error) {
 	m.initWriter()
-	m.Writer.WriteString("I'm a real Mallard duck\n")
+	_, err = m.Writer.WriteString("I'm a real Mallard duck\n")
+	return
 }
 
-// PerformFly implements Duck.
-func (m *MallardDuck) PerformFly() {
+// PerformFly prints a flying action to the configured writer.
+func (m *MallardDuck) PerformFly() error {
 	m.initWriter()
 	if m.flyBehavior == nil {
 		m.flyBehavior = &behavior.FlyWithWings{}
 	}
-	m.flyBehavior.Fly(m.Writer)
+	return m.flyBehavior.Fly(m.Writer)
 }
 
-// PerformQuack implements Duck.
-func (m *MallardDuck) PerformQuack() {
+// PerformQuack prints a quacking action to the configured writer.
+func (m *MallardDuck) PerformQuack() error {
 	m.initWriter()
 	if m.quackBehavior == nil {
 		m.quackBehavior = &behavior.Quack{}
 	}
-	m.quackBehavior.Quack(m.Writer)
+	return m.quackBehavior.Quack(m.Writer)
 }
 
-// Swim implements Duck.
-func (m *MallardDuck) Swim() {
+// Swim prints a swimming action to the configured writer.
+func (m *MallardDuck) Swim() (err error) {
 	m.initWriter()
-	m.Writer.WriteString("All ducks float, even decoys!\n")
+	_, err = m.Writer.WriteString("All ducks float, even decoys!\n")
+	return
 }
 
+// ModelDuck represents a toy model duck, whose flying and quacking
+// behavior can be changed. By default it can't fly and doesn't quack.
 type ModelDuck struct {
-	FlyBehavior   behavior.Flyable
+
+	// FlyBehavior is the flying behavior of this duck.
+	FlyBehavior behavior.Flyable
+
+	// QuackBehavior is the quacking behavior of this duck.
 	QuackBehavior behavior.Quackable
-	Writer        io.StringWriter
+
+	// Writer is where the text output of this duck's actions are written.
+	Writer io.StringWriter
 }
 
 var _ Duck = (*ModelDuck)(nil)
@@ -76,32 +95,34 @@ func (m *ModelDuck) initWriter() {
 	}
 }
 
-// Display implements Duck.
-func (m *ModelDuck) Display() {
+// Display prints a message to the configured writer.
+func (m *ModelDuck) Display() (err error) {
 	m.initWriter()
-	m.Writer.WriteString("I'm a model duck\n")
+	_, err = m.Writer.WriteString("I'm a model duck\n")
+	return
 }
 
-// PerformFly implements Duck.
-func (m *ModelDuck) PerformFly() {
+// PerformFly prints a flying action to the configured writer.
+func (m *ModelDuck) PerformFly() error {
 	m.initWriter()
 	if m.FlyBehavior == nil {
 		m.FlyBehavior = &behavior.FlyNoWay{}
 	}
-	m.FlyBehavior.Fly(m.Writer)
+	return m.FlyBehavior.Fly(m.Writer)
 }
 
-// PerformQuack implements Duck.
-func (m *ModelDuck) PerformQuack() {
+// PerformQuack prints a quacking action to the configured writer.
+func (m *ModelDuck) PerformQuack() error {
 	m.initWriter()
 	if m.QuackBehavior == nil {
 		m.QuackBehavior = &behavior.MuteQuack{}
 	}
-	m.QuackBehavior.Quack(m.Writer)
+	return m.QuackBehavior.Quack(m.Writer)
 }
 
-// Swim implements Duck.
-func (m *ModelDuck) Swim() {
+// Swim prints a swimming action to the configured writer.
+func (m *ModelDuck) Swim() (err error) {
 	m.initWriter()
-	m.Writer.WriteString("All ducks float, even decoys!\n")
+	_, err = m.Writer.WriteString("All ducks float, even decoys!\n")
+	return
 }

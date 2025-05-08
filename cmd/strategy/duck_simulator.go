@@ -1,6 +1,9 @@
 package strategy
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/adambkaplan/go-design-patterns/strategy/behavior"
 	"github.com/adambkaplan/go-design-patterns/strategy/duck"
 )
@@ -8,12 +11,19 @@ import (
 func RunDuckSimulator() {
 
 	mallard := &duck.MallardDuck{}
-	mallard.PerformQuack()
-	mallard.PerformFly()
+	Must(mallard.PerformQuack())
+	Must(mallard.PerformFly())
 
 	modelDuck := &duck.ModelDuck{}
-	modelDuck.PerformFly()
+	Must(modelDuck.PerformFly())
 	modelDuck.FlyBehavior = &behavior.FlyRocketPowered{}
-	modelDuck.PerformFly()
+	Must(modelDuck.PerformFly())
 
+}
+
+func Must(err error) {
+	if err != nil {
+		fmt.Printf("An unexpected error occurred: %v", err)
+		os.Exit(1)
+	}
 }
