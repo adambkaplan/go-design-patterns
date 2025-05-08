@@ -13,7 +13,8 @@ import (
 var _ = Describe("Ducks", func() {
 
 	var (
-		output *bytes.Buffer
+		output  *bytes.Buffer
+		subject duck.Duck
 	)
 
 	BeforeEach(func() {
@@ -22,13 +23,11 @@ var _ = Describe("Ducks", func() {
 
 	When("a MallardDuck is used", func() {
 
-		var (
-			subject *duck.MallardDuck
-		)
-
 		BeforeEach(func() {
 			subject = &duck.MallardDuck{
-				Writer: output,
+				GenericDuck: duck.GenericDuck{
+					Writer: output,
+				},
 			}
 		})
 
@@ -56,13 +55,11 @@ var _ = Describe("Ducks", func() {
 
 	When("a ModelDuck is used", func() {
 
-		var (
-			subject *duck.ModelDuck
-		)
-
 		BeforeEach(func() {
 			subject = &duck.ModelDuck{
-				Writer: output,
+				GenericDuck: duck.GenericDuck{
+					Writer: output,
+				},
 			}
 		})
 
@@ -78,7 +75,7 @@ var _ = Describe("Ducks", func() {
 
 		It("can change its flying behavior", func() {
 			Expect(subject.PerformFly()).To(Succeed())
-			subject.FlyBehavior = &behavior.FlyRocketPowered{}
+			subject.SetFlyBehavior(&behavior.FlyRocketPowered{})
 			Expect(subject.PerformFly()).To(Succeed())
 			outString := output.String()
 			Expect(outString).To(ContainSubstring("I can't fly\n"))
@@ -87,7 +84,7 @@ var _ = Describe("Ducks", func() {
 
 		It("can change its quacking behavior", func() {
 			Expect(subject.PerformQuack()).To(Succeed())
-			subject.QuackBehavior = &behavior.Squeak{}
+			subject.SetQuackBehavior(&behavior.Squeak{})
 			Expect(subject.PerformQuack()).To(Succeed())
 			outString := output.String()
 			Expect(outString).To(ContainSubstring("<< Silence >>\n"))
@@ -105,4 +102,35 @@ var _ = Describe("Ducks", func() {
 		})
 
 	})
+
+	When("a GenericDuck is used", func() {
+
+		BeforeEach(func() {
+			subject = &duck.GenericDuck{
+				Writer: output,
+			}
+		})
+
+		It("can fly", func() {
+			Expect(subject.PerformFly()).To(Succeed())
+			Expect(output.String()).To(Equal("I'm flying!!\n"))
+		})
+
+		It("can quack", func() {
+			Expect(subject.PerformQuack()).To(Succeed())
+			Expect(output.String()).To(Equal("Quack\n"))
+		})
+
+		It("can swim", func() {
+			Expect(subject.Swim()).To(Succeed())
+			Expect(output.String()).To(Equal("All ducks float, even decoys!\n"))
+		})
+
+		It("can be displayed", func() {
+			Expect(subject.Display()).To(Succeed())
+			Expect(output.String()).To(Equal("I'm a non-descript duck\n"))
+		})
+
+	})
+
 })
