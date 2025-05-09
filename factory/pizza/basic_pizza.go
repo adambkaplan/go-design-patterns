@@ -35,7 +35,7 @@ func (b *BasicPizza) Bake() (err error) {
 // Box implements Pizza.
 func (b *BasicPizza) Box() (err error) {
 	b.InitWriter()
-	_, err = b.Writer.WriteString("Place pizza in official PizzaStore box\n")
+	_, err = b.Writer.WriteString("Placing pizza in official PizzaStore box\n")
 	return
 }
 

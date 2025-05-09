@@ -10,14 +10,15 @@ import (
 
 func RunPizzaStores() {
 
-	nyStore := &ny.PizzaStore{}
-	chicagoStore := &chicago.PizzaStore{}
+	nyStore := ny.NewPizzaStore()
+	chicagoStore := chicago.NewPizzaStore()
 
 	personStore := map[string]pizza.Store{
 		"Ethan": nyStore,
 		"Joel":  chicagoStore,
 	}
-	pizzaTypes := []string{"cheese", "clam", "pepperoni", "veggie"}
+	pizzaTypes := []string{"cheese"}
+	// pizzaTypes := []string{"cheese", "clam", "pepperoni", "veggie"}
 
 	for _, pizzaType := range pizzaTypes {
 		for person, store := range personStore {
