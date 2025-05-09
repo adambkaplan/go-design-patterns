@@ -30,7 +30,7 @@ var _ = Describe("WeatherData", func() {
 		It("stores the error for future reference", func(ctx SpecContext) {
 			subject.SetMeasurements(80, 62, 31.56)
 
-			Eventually(len(subject.Errors())).ShouldNot(BeZero())
+			Eventually(ctx, len(subject.Errors())).ShouldNot(BeZero())
 		}, SpecTimeout(1*time.Second))
 	})
 })

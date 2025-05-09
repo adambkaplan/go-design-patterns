@@ -1,7 +1,6 @@
 package weather_test
 
 import (
-	"bytes"
 	"time"
 
 	"github.com/adambkaplan/go-design-patterns/observer/weather"
@@ -14,13 +13,13 @@ var _ = Describe("Forecast Display", func() {
 	When("the weather data is updated", func() {
 
 		var (
-			output  *bytes.Buffer
+			output  *ConcurrentWriter
 			data    *weather.WeatherData
 			display *weather.ForecastDisplay
 		)
 
 		BeforeEach(func() {
-			output = &bytes.Buffer{}
+			output = &ConcurrentWriter{}
 			data = &weather.WeatherData{}
 			display = weather.NewForecastDisplay(data)
 			display.Writer = output

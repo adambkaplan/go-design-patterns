@@ -1,7 +1,6 @@
 package weather_test
 
 import (
-	"bytes"
 	"time"
 
 	"github.com/adambkaplan/go-design-patterns/observer/weather"
@@ -15,7 +14,7 @@ var _ = Describe("Current Conditions Display", func() {
 
 		It("displays the current temperature, humidity, and pressure", func(ctx SpecContext) {
 			data := &weather.WeatherData{}
-			output := &bytes.Buffer{}
+			output := &ConcurrentWriter{}
 			display := weather.NewCurrentConditionsDisplay(data)
 			display.Writer = output
 			data.SetMeasurements(80, 90, 30.2)
