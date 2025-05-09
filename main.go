@@ -8,6 +8,7 @@ import (
 	"fmt"
 
 	"github.com/adambkaplan/go-design-patterns/cmd/decorator"
+	"github.com/adambkaplan/go-design-patterns/cmd/factory"
 	"github.com/adambkaplan/go-design-patterns/cmd/observer"
 	"github.com/adambkaplan/go-design-patterns/cmd/strategy"
 )
@@ -25,5 +26,8 @@ func main() {
 	fmt.Println("----------------------------------")
 	fmt.Println("== Pattern 3: Decorator Pattern ==")
 	decorator.RunCoffeeShop()
+	fmt.Println("----------------------------------")
+	fmt.Println("====== Pattern 4: Factories ======")
+	factory.RunPizzaStores()
 	fmt.Println("----------------------------------")
 }
