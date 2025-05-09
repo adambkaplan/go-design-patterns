@@ -25,17 +25,18 @@ func NewForecastDisplay(data *WeatherData) *ForecastDisplay {
 }
 
 // Display displays the weather forecast.
-func (f *ForecastDisplay) Display() {
+func (f *ForecastDisplay) Display() (err error) {
 	if f.Writer == nil {
 		f.Writer = os.Stdout
 	}
 	if f.pressureIncreased() {
-		f.Writer.WriteString("Forecast: Improving weather on the way!\n")
+		_, err = f.Writer.WriteString("Forecast: Improving weather on the way!\n")
 	} else if f.pressureDecreased() {
-		f.Writer.WriteString("Forecast: Watch out for rainy weather\n")
+		_, err = f.Writer.WriteString("Forecast: Watch out for rainy weather\n")
 	} else {
-		f.Writer.WriteString("Forecast: More of the same\n")
+		_, err = f.Writer.WriteString("Forecast: More of the same\n")
 	}
+	return
 }
 
 func (f *ForecastDisplay) pressureIncreased() bool {
@@ -47,9 +48,9 @@ func (f *ForecastDisplay) pressureDecreased() bool {
 }
 
 // Update retrieves the data from the weather station and updates the display.
-func (f *ForecastDisplay) Update(data *WeatherData) {
+func (f *ForecastDisplay) Update(data *WeatherData) error {
 	f.LastPressure = f.CurrentPressure
 	f.CurrentPressure = data.Pressure
 
-	f.Display()
+	return f.Display()
 }

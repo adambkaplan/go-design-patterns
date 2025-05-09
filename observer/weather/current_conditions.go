@@ -18,21 +18,21 @@ var _ DisplayElement = (*CurrentConditionsDisplay)(nil)
 
 // Display reports the current conditions. By default this writes to `os.Stdout` unless a different
 // Writer has been set.
-func (c *CurrentConditionsDisplay) Display() {
+func (c *CurrentConditionsDisplay) Display() (err error) {
 	if c.Writer == nil {
 		c.Writer = os.Stdout
 	}
-	c.Writer.WriteString(fmt.Sprintf("Current conditions: %.fF, %.f%% humidity, %.2f pressure\n", c.Temperature, c.Humidity, c.Pressure))
-
+	_, err = c.Writer.WriteString(fmt.Sprintf("Current conditions: %.fF, %.f%% humidity, %.2f pressure\n", c.Temperature, c.Humidity, c.Pressure))
+	return
 }
 
 // Update retrieves the data from the weather station and updates the display.
-func (c *CurrentConditionsDisplay) Update(data *WeatherData) {
+func (c *CurrentConditionsDisplay) Update(data *WeatherData) error {
 	c.Temperature = data.Temperature
 	c.Humidity = data.Humidity
 	c.Pressure = data.Pressure
 
-	c.Display()
+	return c.Display()
 }
 
 // NewCurrentConditionsDisplay creates a new CurrentConditionsDisplay, and registers it for updates

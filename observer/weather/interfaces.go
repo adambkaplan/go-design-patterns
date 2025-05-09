@@ -2,7 +2,7 @@ package weather
 
 // DisplayElements are capable of displaying weather data.
 type DisplayElement interface {
-	Display()
+	Display() error
 }
 
 type Subject interface {
@@ -14,5 +14,5 @@ type Subject interface {
 }
 
 type Observer interface {
-	Update(data *WeatherData)
+	Update(data *WeatherData) error
 }

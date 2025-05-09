@@ -7,7 +7,31 @@ type WeatherData struct {
 	Humidity    float64
 	Pressure    float64
 
-	observers map[Observer]chan<- *WeatherData
+	observers    map[Observer]chan<- *WeatherData
+	errChan      chan error
+	updateErrors []error
+}
+
+func (d *WeatherData) ensureObserversMap() {
+	if d.observers == nil {
+		d.observers = make(map[Observer]chan<- *WeatherData)
+	}
+}
+
+func (d *WeatherData) ensureErrorHandling() {
+	if d.errChan == nil {
+		d.errChan = make(chan error)
+		go func() {
+			errChan := d.errChan
+			for err := range errChan {
+				d.updateErrors = append(d.updateErrors, err)
+			}
+		}()
+	}
+}
+
+func (d *WeatherData) Errors() []error {
+	return d.updateErrors
 }
 
 // NotifyObservers informs the registered observers of updates.
@@ -19,14 +43,20 @@ func (d *WeatherData) NotifyObservers() {
 
 // RegisterObserver registers the provided observer for updates.
 func (d *WeatherData) RegisterObserver(o Observer) {
-	if d.observers == nil {
-		d.observers = make(map[Observer]chan<- *WeatherData)
+	d.ensureObserversMap()
+	d.ensureErrorHandling()
+	if d.errChan == nil {
+		d.errChan = make(chan error)
 	}
 	updateChan := make(chan *WeatherData)
 	d.observers[o] = updateChan
 	go func() {
 		for data := range updateChan {
-			o.Update(data)
+			// If an error occurs during update, send it to the error chanel for further processing.
+			if err := o.Update(data); err != nil {
+				errChan := d.errChan
+				errChan <- err
+			}
 		}
 	}()
 }
