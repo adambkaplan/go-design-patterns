@@ -7,7 +7,6 @@ import (
 
 // ForecastDisplay shows a projected forecast based on air pressure changes.
 type ForecastDisplay struct {
-	Data   *WeatherData
 	Writer io.StringWriter
 
 	LastPressure    float64
@@ -19,7 +18,6 @@ var _ DisplayElement = (*ForecastDisplay)(nil)
 // NewForeastDisplay creates a new forecast display and registers it with the weather station.
 func NewForecastDisplay(data *WeatherData) *ForecastDisplay {
 	display := &ForecastDisplay{
-		Data:            data,
 		CurrentPressure: 29.92,
 	}
 	data.RegisterObserver(display)
@@ -49,9 +47,9 @@ func (f *ForecastDisplay) pressureDecreased() bool {
 }
 
 // Update retrieves the data from the weather station and updates the display.
-func (f *ForecastDisplay) Update() {
+func (f *ForecastDisplay) Update(data *WeatherData) {
 	f.LastPressure = f.CurrentPressure
-	f.CurrentPressure = f.Data.Pressure
+	f.CurrentPressure = data.Pressure
 
 	f.Display()
 }

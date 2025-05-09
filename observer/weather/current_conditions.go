@@ -8,7 +8,6 @@ import (
 
 // CurrentConditionsDisplay displays the current conditions from the weather station.
 type CurrentConditionsDisplay struct {
-	Data        *WeatherData
 	Writer      io.StringWriter
 	Temperature float64
 	Humidity    float64
@@ -28,10 +27,10 @@ func (c *CurrentConditionsDisplay) Display() {
 }
 
 // Update retrieves the data from the weather station and updates the display.
-func (c *CurrentConditionsDisplay) Update() {
-	c.Temperature = c.Data.Temperature
-	c.Humidity = c.Data.Humidity
-	c.Pressure = c.Data.Pressure
+func (c *CurrentConditionsDisplay) Update(data *WeatherData) {
+	c.Temperature = data.Temperature
+	c.Humidity = data.Humidity
+	c.Pressure = data.Pressure
 
 	c.Display()
 }
@@ -39,7 +38,7 @@ func (c *CurrentConditionsDisplay) Update() {
 // NewCurrentConditionsDisplay creates a new CurrentConditionsDisplay, and registers it for updates
 // with the provided weather station.
 func NewCurrentConditionsDisplay(data *WeatherData) *CurrentConditionsDisplay {
-	display := &CurrentConditionsDisplay{Data: data}
+	display := &CurrentConditionsDisplay{}
 	data.RegisterObserver(display)
 	return display
 }

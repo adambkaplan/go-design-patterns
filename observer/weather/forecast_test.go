@@ -2,6 +2,7 @@ package weather_test
 
 import (
 	"bytes"
+	"time"
 
 	"github.com/adambkaplan/go-design-patterns/observer/weather"
 	. "github.com/onsi/ginkgo/v2"
@@ -25,20 +26,32 @@ var _ = Describe("Forecast Display", func() {
 			display.Writer = output
 		})
 
-		It("reports the weather is improving if pressure goes up", func() {
+		It("reports the weather is improving if pressure goes up", func(ctx SpecContext) {
 			data.SetMeasurements(80, 65, 32.10)
-			Expect(output.String()).To(Equal("Forecast: Improving weather on the way!\n"))
-		})
+			outputString := ""
+			Eventually(ctx, func() string {
+				outputString += output.String()
+				return outputString
+			}).Should(Equal("Forecast: Improving weather on the way!\n"))
+		}, SpecTimeout(1*time.Second))
 
-		It("reports the weather is getting worse if pressure goes down", func() {
+		It("reports the weather is getting worse if pressure goes down", func(ctx SpecContext) {
 			data.SetMeasurements(75, 95, 28.6)
-			Expect(output.String()).To(Equal("Forecast: Watch out for rainy weather\n"))
-		})
+			outputString := ""
+			Eventually(ctx, func() string {
+				outputString += output.String()
+				return outputString
+			}).Should(Equal("Forecast: Watch out for rainy weather\n"))
+		}, SpecTimeout(1*time.Second))
 
-		It("reports the weather is stable if pressure remains constant", func() {
+		It("reports the weather is stable if pressure remains constant", func(ctx SpecContext) {
 			data.SetMeasurements(65, 50, 30.0)
-			Expect(output.String()).To(Equal("Forecast: More of the same\n"))
-		})
+			outputString := ""
+			Eventually(ctx, func() string {
+				outputString += output.String()
+				return outputString
+			}).Should(Equal("Forecast: More of the same\n"))
+		}, SpecTimeout(1*time.Second))
 	})
 
 })
