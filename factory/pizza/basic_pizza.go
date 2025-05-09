@@ -1,7 +1,6 @@
 package pizza
 
 import (
-	"fmt"
 	"io"
 	"os"
 )
@@ -48,13 +47,6 @@ func (b *BasicPizza) Cut() (err error) {
 }
 
 func (b *BasicPizza) Prepare() error {
-	b.InitWriter()
-	if _, err := b.Writer.WriteString(fmt.Sprintf("Preparing %s\n", b.GetName())); err != nil {
-		return err
-	}
-	b.Dough = ThinCrust
-	b.Cheese = ShreddedMozarella
-	b.Sauce = Marinara
 	return nil
 }
 
