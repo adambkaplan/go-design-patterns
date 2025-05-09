@@ -1,6 +1,12 @@
 package pizza
 
+import (
+	"io"
+	"os"
+)
+
 type BasicStore struct {
+	Writer      io.StringWriter
 	CreatePizza PizzaCreator
 }
 
@@ -11,11 +17,22 @@ func (b *BasicStore) OrderPizza(pizzaType string) (Pizza, error) {
 	if b.CreatePizza == nil {
 		b.CreatePizza = CreateBasicPizza
 	}
-	pizza := b.CreatePizza(pizzaType)
+	if b.Writer == nil {
+		b.Writer = os.Stdout
+	}
+	pizza := b.CreatePizza(b.Writer, pizzaType)
 
-	pizza.Prepare()
-	pizza.Bake()
-	pizza.Box()
-	pizza.Cut()
+	if err := pizza.Prepare(); err != nil {
+		return nil, err
+	}
+	if err := pizza.Bake(); err != nil {
+		return nil, err
+	}
+	if err := pizza.Box(); err != nil {
+		return nil, err
+	}
+	if err := pizza.Cut(); err != nil {
+		return nil, err
+	}
 	return pizza, nil
 }

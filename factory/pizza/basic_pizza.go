@@ -1,6 +1,7 @@
 package pizza
 
 import (
+	"fmt"
 	"io"
 	"os"
 )
@@ -8,6 +9,13 @@ import (
 type BasicPizza struct {
 	Writer io.StringWriter
 	Name   string
+
+	Dough     Dough
+	Sauce     Sauce
+	Cheese    Cheese
+	Veggies   []Veggies
+	Pepperoni Pepperoni
+	Clams     Clams
 }
 
 var _ (Pizza) = (*BasicPizza)(nil)
@@ -21,7 +29,7 @@ func (b *BasicPizza) InitWriter() {
 // Bake implements Pizza.
 func (b *BasicPizza) Bake() (err error) {
 	b.InitWriter()
-	_, err = b.Writer.WriteString("Bake for 25 minuts at 350\n")
+	_, err = b.Writer.WriteString("Bake for 25 minutes at 350\n")
 	return
 }
 
@@ -40,6 +48,13 @@ func (b *BasicPizza) Cut() (err error) {
 }
 
 func (b *BasicPizza) Prepare() error {
+	b.InitWriter()
+	if _, err := b.Writer.WriteString(fmt.Sprintf("Preparing %s\n", b.GetName())); err != nil {
+		return err
+	}
+	b.Dough = ThinCrust
+	b.Cheese = ShreddedMozarella
+	b.Sauce = Marinara
 	return nil
 }
 
@@ -56,6 +71,8 @@ func (b *BasicPizza) GetName() string {
 }
 
 // CreateBasicPizza always creates a basic pizza, regardless of input pizza type.
-func CreateBasicPizza(pizzaType string) Pizza {
-	return &BasicPizza{}
+func CreateBasicPizza(writer io.StringWriter, pizzaType string) Pizza {
+	return &BasicPizza{
+		Writer: writer,
+	}
 }

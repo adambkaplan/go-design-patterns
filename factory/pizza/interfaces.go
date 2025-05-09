@@ -1,5 +1,7 @@
 package pizza
 
+import "io"
+
 type Pizza interface {
 
 	// GetName returns the name of the pizza.
@@ -28,4 +30,25 @@ type Store interface {
 }
 
 // PizzaCreator creates a pizza of the given type.
-type PizzaCreator func(pizzaType string) Pizza
+type PizzaCreator func(writer io.StringWriter, pizzaType string) Pizza
+
+type IngredientFactory interface {
+
+	// CreateDough creates the permitted dough
+	CreateDough() Dough
+
+	// CreateSauce creates the permitted sauce
+	CreateSauce() Sauce
+
+	// CreateCheese creates the permitted cheese
+	CreateCheese() Cheese
+
+	// CreateVeggies creates the permitted veggies
+	CreateVeggies() []Veggies
+
+	// CreatePepperoni creates the permitted pepperoni
+	CreatePepperoni() Pepperoni
+
+	// CreateClams creates the permitted clams
+	CreateClams() Clams
+}
