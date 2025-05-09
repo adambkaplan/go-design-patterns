@@ -7,6 +7,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/adambkaplan/go-design-patterns/cmd/observer"
 	"github.com/adambkaplan/go-design-patterns/cmd/strategy"
 )
 
@@ -17,5 +18,8 @@ func main() {
 	fmt.Println("== Pattern 1: Strategy Pattern ==")
 	fmt.Println("---------------------------------")
 	strategy.RunDuckSimulator()
+	fmt.Println("---------------------------------")
+	fmt.Println("== Pattern 2: Observer Pattern ==")
+	observer.RunWeatherStation()
 	fmt.Println("---------------------------------")
 }
