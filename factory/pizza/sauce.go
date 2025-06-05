@@ -4,5 +4,5 @@ type Sauce string
 
 const (
 	Marinara   Sauce = "Marinara Sauce"
-	PlumTomato       = "Tomato sauce with plum tomatoes"
+	PlumTomato Sauce = "Tomato sauce with plum tomatoes"
 )

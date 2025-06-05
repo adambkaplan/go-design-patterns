@@ -3,6 +3,6 @@ package pizza
 type Dough string
 
 const (
-	ThickCrust Dough = "Extra thick crust dough"
-	ThinCrust  Dough = "Think Crust Dough"
+	ThickCrust Dough = "Extra Thick Crust Dough"
+	ThinCrust  Dough = "Thin Crust Dough"
 )

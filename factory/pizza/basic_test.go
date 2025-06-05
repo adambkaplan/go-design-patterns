@@ -11,13 +11,37 @@ import (
 
 var _ = Describe("Basic Pizza", func() {
 
-	PIt("bakes at 350 for 25 minutes")
+	var (
+		basicPizza *pizza.BasicPizza
+		output     *bytes.Buffer
+	)
 
-	PIt("is boxed")
+	BeforeEach(func() {
+		output = &bytes.Buffer{}
+		basicPizza = &pizza.BasicPizza{
+			Writer: output,
+		}
+	})
 
-	PIt("is cut in diagonal slices")
+	It("bakes at 350 for 25 minutes", func() {
+		Expect(basicPizza.Bake()).To(Succeed())
+		Expect(output.String()).To(Equal("Bake for 25 minutes at 350\n"))
+	})
 
-	PIt("is prepared with thin crust, shredded mozarella, and marinara sauce")
+	It("is boxed", func() {
+		Expect(basicPizza.Box()).To(Succeed())
+		Expect(output.String()).To(Equal("Placing pizza in official PizzaStore box\n"))
+	})
+
+	It("is cut in diagonal slices", func() {
+		Expect(basicPizza.Cut()).To(Succeed())
+		Expect(output.String()).To(Equal("Cutting the pizza into diagonal slices\n"))
+	})
+
+	It("does nothing during preparation", func() {
+		Expect(basicPizza.Prepare()).To(Succeed())
+		Expect(output.String()).To(BeEmpty())
+	})
 
 })
 
