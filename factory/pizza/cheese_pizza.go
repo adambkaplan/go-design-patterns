@@ -17,18 +17,18 @@ func (c *CheesePizza) Prepare() error {
 	}
 
 	outBuilder := &strings.Builder{}
-	outBuilder.WriteString(fmt.Sprintf("Preparing %s\n", c.Name))
+	fmt.Fprintf(outBuilder, "Preparing %s\n", c.Name)
 
 	c.Dough = c.Ingredients.CreateDough()
-	outBuilder.WriteString(fmt.Sprintf("Tossing %s...\n", c.Dough))
+	fmt.Fprintf(outBuilder, "Tossing %s...\n", c.Dough)
 
 	c.Sauce = c.Ingredients.CreateSauce()
-	outBuilder.WriteString(fmt.Sprintf("Adding %s...\n", c.Sauce))
+	fmt.Fprintf(outBuilder, "Adding %s...\n", c.Sauce)
 
-	outBuilder.WriteString("Adding toppings:\n")
+	fmt.Fprintf(outBuilder, "Adding toppings:\n")
 
 	c.Cheese = c.Ingredients.CreateCheese()
-	outBuilder.WriteString(fmt.Sprintf("    %s Cheese\n", c.Cheese))
+	fmt.Fprintf(outBuilder, "    %s Cheese\n", c.Cheese)
 
 	c.InitWriter()
 	if _, err := c.Writer.WriteString(outBuilder.String()); err != nil {
