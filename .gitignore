@@ -27,3 +27,10 @@ go.work.sum
 # Build and test artifacts
 go-design-patterns
 coverage.html
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+
+
