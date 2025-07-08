@@ -10,7 +10,7 @@ build:
 	go build -o go-design-patterns main.go
 
 test:
-	go test -race -v --coverprofile=coverage.out ./... -ginkgo.v
+	go test -race -v --coverprofile=coverage.out --coverpkg=./... ./... -ginkgo.v
 
 test-coverage: test
 	go tool cover -o coverage.html -html coverage.out
